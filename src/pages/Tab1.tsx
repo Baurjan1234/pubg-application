@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IonContent,
   IonHeader,
@@ -8,26 +8,41 @@ import {
   IonButton,
   IonItem,
   IonLabel,
-
   IonAvatar,
   IonIcon,
-  IonCol,
-  IonCard,
-  IonCardContent,
-  IonCardTitle,
-  IonNote,
-
+  IonNavLink,
 } from "@ionic/react";
-
-import { Swiper, SwiperSlide } from 'swiper/react';
 
 import "./Tab1.css";
 import { star } from "ionicons/icons";
 import InfinityScrollerCom from "../components/InfinityScrollCom";
 import SwiperCard from "../components/swiperCard";
+import PageNews from "./news";
+
 
 const Tab1: React.FC = () => {
-  const item = [12, 2, 1, 2, 3, 2, 2];
+
+  interface UserModel {
+    name: string;
+    id: string;
+  }
+
+  const [user, setUser] = useState<UserModel>();
+
+
+  const dataFetch = async () => {
+    const data = await (
+      await fetch(
+        "https://run.mocky.io/v3/b3bcb9d2-d8e9-43c5-bfb7-0062c85be6f9"
+      )
+    ).json();
+    setUser(data[0]);
+  };
+
+  useEffect(() => {
+    dataFetch();
+  }, []);
+
 
   return (
     <IonPage>
@@ -37,7 +52,7 @@ const Tab1: React.FC = () => {
             <IonTitle>Pubg appBar</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonItem>
+        <IonItem lines="none">
           <IonAvatar slot="start">
             <img
               alt="Silhouette of a person's head"
@@ -46,13 +61,15 @@ const Tab1: React.FC = () => {
           </IonAvatar>
 
           <IonLabel>
-            <h2>H1 Heading</h2>
-            <p>Paragraph</p>
+            <h2>{user?.name ? user.name : 'name null'}</h2>
+            <p>{user?.id ? user.id : 'name null'}</p>
           </IonLabel>
+          <IonNavLink routerDirection="forward" component={() => <PageNews />}>
+            <IonButton slot="end">
+              <IonIcon icon={star}></IonIcon>
+            </IonButton>
+          </IonNavLink>
 
-          <IonButton slot="end">
-            <IonIcon icon={star}></IonIcon>
-          </IonButton>
         </IonItem>
         <SwiperCard />
         <InfinityScrollerCom />

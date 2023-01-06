@@ -21,11 +21,13 @@ import {
 } from "@ionic/react";
 import { Doughnut } from "react-chartjs-2";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Tab2.css";
 import TableData from "../components/DataTable";
 
 const Tab2: React.FC = () => {
+
+  const inputDeposit = useRef<HTMLIonInputElement>(null);
   const data = {
     datasets: [
       {
@@ -43,8 +45,10 @@ const Tab2: React.FC = () => {
 
 
   const [segmentValue, setSegmentValue] = useState<string>('Amount');
+  const [depositDisable, setDepositDisable] = useState<boolean>(true);
 
   const handleSegmentChange = (val: any) => {
+    setDepositDisable(true);
     setSegmentValue('' + val.detail.value);
   }
 
@@ -57,7 +61,7 @@ const Tab2: React.FC = () => {
       </IonHeader>
       <IonContent fullscreen>
         <IonList>
-          <IonItem>
+          <IonItem lines="none">
             <IonAvatar slot="start">
               <img
                 alt="Silhouette of a person's head"
@@ -81,7 +85,10 @@ const Tab2: React.FC = () => {
                 </IonButton>
               </IonCol>
               <IonCol>
-                <IonButton shape="round" className="button-height">
+                <IonButton
+                  id="open-deposit-withdraw"
+
+                  shape="round" className="button-height">
                   Withdraw
                 </IonButton>
               </IonCol>
@@ -99,11 +106,9 @@ const Tab2: React.FC = () => {
               <IonCol size="6" aria-expanded={true}>
                 <Doughnut data={data} spellCheck={true} />
               </IonCol>
-              <IonCol>
-                <IonLabel>Daily 40%</IonLabel>
-                <tr />
+              <IonCol className="graphicLabelFlex">
+                <IonLabel>Daily 40% </IonLabel>
                 <IonLabel>Weekly 30%</IonLabel>
-                <tr />
                 <IonLabel>League 30%</IonLabel>
               </IonCol>
             </IonRow>
@@ -112,6 +117,7 @@ const Tab2: React.FC = () => {
           <TableData />
 
           <IonModal
+
             trigger="open-deposit"
             initialBreakpoint={0.5}
             breakpoints={[0.5]}
@@ -123,7 +129,7 @@ const Tab2: React.FC = () => {
                 <IonSegmentButton value="Amount">
                   Amount
                 </IonSegmentButton>
-                <IonSegmentButton value="Deposit">
+                <IonSegmentButton value="Deposit" disabled={depositDisable}>
                   Deposit
                 </IonSegmentButton>
               </IonSegment>
@@ -133,19 +139,66 @@ const Tab2: React.FC = () => {
               <div className="ion-margin-top ion-text-center">
                 <IonInput
                   className="form__input"
-                  color="dark" placeholder="Deposit"></IonInput>
-                <IonButton slot="center" shape="round" className="ion-margin-top ion-text-center" >Deposit</IonButton>
+                  color="dark" placeholder="Deposit" ref={inputDeposit}></IonInput>
+
+                <IonButton slot="center" shape="round" className="ion-margin-top ion-text-center" onClick={() => {
+                  setSegmentValue('Deposit');
+                  setDepositDisable(false);
+                }} >Deposit</IonButton>
               </div>}
 
             {segmentValue === 'Deposit' && <IonItem>
-              <IonLabel>Readonly input</IonLabel>
-              <IonInput value="Madison" readonly={true}></IonInput>
+              <b>Deposit amount</b>
+              <IonInput
+                className="form__input"
+                value={inputDeposit.current?.value} readonly={true}></IonInput>
+            </IonItem>}
+
+          </IonModal>
+
+          <IonModal
+            trigger="open-deposit-withdraw"
+            initialBreakpoint={0.5}
+            breakpoints={[0.5]}
+            handleBehavior="cycle"
+            className='ion-padding'
+          >
+            <IonToolbar>
+              <IonSegment value={segmentValue} onIonChange={handleSegmentChange}>
+                <IonSegmentButton value="Amount">
+                  Amount
+                </IonSegmentButton>
+                <IonSegmentButton value="Deposit" disabled={depositDisable}>
+                  Deposit
+                </IonSegmentButton>
+              </IonSegment>
+            </IonToolbar>
+
+            {segmentValue === 'Amount' &&
+              <div className="ion-margin-top ion-text-center">
+
+                <IonInput
+                  className="form__input"
+                  color="dark" placeholder="Deposit" ref={inputDeposit}></IonInput>
+
+                <IonButton slot="center" shape="round" className="ion-margin-top ion-text-center" onClick={() => {
+                  setSegmentValue('Deposit');
+                  setDepositDisable(false);
+                }} >Deposit</IonButton>
+              </div>}
+
+            {segmentValue === 'Deposit' && <IonItem>
+
+              <b>Deposit amount</b>
+              <IonInput
+                className="form__input"
+                value={inputDeposit.current?.value} readonly={true}></IonInput>
             </IonItem>}
 
           </IonModal>
         </IonList>
       </IonContent>
-    </IonPage>
+    </IonPage >
   );
 };
 

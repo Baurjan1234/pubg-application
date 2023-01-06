@@ -12,9 +12,8 @@ function TableData() {
                 </IonRow>
             </IonGrid>
             <IonGrid >
-
-                {[1, 2, 3, 4, 5].map((e) => (
-                    <IonRow>
+                {[1, 2, 3, 4, 5].map((e, i) => (
+                    <IonRow key={`${e + i}`}>
                         <IonCol size="6"># Stalwart E-Sports</IonCol>
                         <IonCol>{e}</IonCol>
                         <IonCol>5000$</IonCol>

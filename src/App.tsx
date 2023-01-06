@@ -3,6 +3,7 @@ import {
   IonApp,
   IonIcon,
   IonLabel,
+  IonNav,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -48,6 +49,7 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
+
       <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/tab1">
@@ -66,6 +68,9 @@ const App: React.FC = () => (
             <Redirect to="/tab4" />
           </Route>
         </IonRouterOutlet>
+
+
+
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
             <IonIcon icon={trophy} />
@@ -85,6 +90,7 @@ const App: React.FC = () => (
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
+
     </IonReactRouter>
   </IonApp>
 );

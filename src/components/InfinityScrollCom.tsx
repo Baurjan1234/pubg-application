@@ -43,7 +43,7 @@ function InfinityScrollerCom() {
     <IonContent>
       <IonList>
         {items.map((item, index) => (
-          <IonCard className="ion-padding">
+          <IonCard className="ion-padding" key={`slide ${item}`}>
             <IonRow>
               <IonCol className="ion-text-center" size="3">
                 <img

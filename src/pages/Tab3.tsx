@@ -1,31 +1,50 @@
-import { IonLabel, IonSegment, IonSegmentButton, IonContent, IonHeader, IonNote, IonPage, IonTitle, IonToolbar, IonSlides, IonSlide, IonCard, IonCardContent, IonCardSubtitle, IonButton, IonIcon, IonModal } from '@ionic/react';
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
-import { Pagination } from "swiper";
+import {
+  IonLabel, IonSegment, IonSegmentButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar,
+  IonButton, IonIcon, IonModal, IonButtons, IonList, IonRow, IonCol
+} from '@ionic/react';
+import { Swiper as Swr, SwiperSlide } from 'swiper/react';
+import Swiper, { Pagination } from "swiper";
 
 import './Tab3.css';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import TableData from '../components/DataTable';
-import { addOutline, colorFill, removeOutline, star } from 'ionicons/icons';
-import SheetModel from '../components/sheetModal';
+import { addOutline, removeOutline, star } from 'ionicons/icons';
+
 
 
 const Tab3: React.FC = () => {
 
   const [value, setValue] = useState<string>("0");
+  const [date, setDate] = useState<string>();
   const [count, setCount] = useState<number>(1);
-  const swip = useSwiper();
+  const modal = useRef<HTMLIonModalElement>(null);
+  const [swiper, setSwiper] = useState<Swiper>();
+  const slideToc = (index: any) => swiper?.slideTo(index);
 
 
+
+
+  const pubgGroup = Array.from({ length: 20 });
 
   const onchagenSwiper = (val: any) => {
-    console.log(val.activeIndex);
     setValue('' + val.activeIndex);
   }
 
   const handleSegmentChange = (val: any) => {
-    console.log(val.detail.value + "segment");
-    setValue('' + val.detail.value);
+    slideToc(parseInt(val.detail.value));
   }
+
+  const dismiss = () => {
+    modal.current?.dismiss();
+  }
+
+  const getDate = () => {
+    setDate(Date().toLocaleString());
+  }
+
+  useEffect(() => {
+    setInterval(getDate, 1000);
+  },);
 
   return (
     <IonPage>
@@ -37,32 +56,36 @@ const Tab3: React.FC = () => {
       <IonContent fullscreen>
 
         <h3 className='ion-text-center'>
-          <b>Pubg mobile</b>   Ending in 00:00:01
+          <b>Pubg mobile</b>   Ending in 00:00:01 {date}
         </h3>
 
         <IonSegment value={value} onIonChange={handleSegmentChange} >
           <IonSegmentButton value="0">
-            <IonLabel>Default1</IonLabel>
+            <IonLabel>Daily</IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="1">
-            <IonLabel>Segment2</IonLabel>
+            <IonLabel>Weekly</IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="2">
-            <IonLabel>Button3</IonLabel>
+            <IonLabel>League</IonLabel>
           </IonSegmentButton>
         </IonSegment>
         {/* <SegmentScrollerData /> */}
-        <Swiper
+        <Swr
 
-          tabIndex={parseInt(value)}
-          onSlideChange={onchagenSwiper}
+          onSlideChange={(val) => {
+            setValue(val.activeIndex + '');
+          }}
           modules={[Pagination]}
-          onActiveIndexChange={(e) => e.activeIndex}
+          onSwiper={(e) => setSwiper(e)}
+
+
         >
-          {value === '0' && <TableData />}
-          {value === '1' && <TableData />}
-          {value === '2' && <TableData />}
-        </Swiper>
+
+          <SwiperSlide><TableData /></SwiperSlide>
+          <SwiperSlide><TableData /></SwiperSlide>
+          <SwiperSlide><TableData /></SwiperSlide>
+        </Swr>
 
         <div
           style={{
@@ -88,39 +111,47 @@ const Tab3: React.FC = () => {
               <IonIcon icon={removeOutline}> </IonIcon>
 
             </IonButton>
-
             <p>{count}</p>
-
             <IonButton
               fill="clear"
               onClick={() => setCount(count + 1)}>
               <IonIcon icon={addOutline}> </IonIcon>
             </IonButton>
-
           </div>
-          <IonButton id="open-modal">Buy</IonButton>
-          <IonModal
-            trigger="open-modal"
-            initialBreakpoint={0.5}
-            breakpoints={[0.5]}
-            handleBehavior="cycle"
-            className='ion-padding'
-          >
-            <IonToolbar>
-              <IonSegment value="all">
-                <IonSegmentButton value="all">
-                  All
-                </IonSegmentButton>
-                <IonSegmentButton value="favorites">
-                  Favorites
-                </IonSegmentButton>
-              </IonSegment>
-            </IonToolbar>
-            <div className="ion-margin-top">
-              <IonLabel>Click the handle above to advance to the next breakpoint.</IonLabel>
-            </div>
-          </IonModal>
+          <IonButton id="open-modal-buy">Buy</IonButton>
         </div>
+
+        <IonModal id="example-modal" ref={modal} trigger="open-modal-buy">
+          <IonContent>
+            <IonToolbar>
+              <IonTitle>Buy ticket</IonTitle>
+              <IonButtons slot="end">
+                <IonButton color="light" onClick={() => dismiss()}>
+                  Close
+                </IonButton>
+              </IonButtons>
+            </IonToolbar>
+            <IonList className='ion-text-center'>
+
+              <IonRow className='ion-text-center' >
+                <IonCol>My ticket <IonIcon icon={star} /> 20 </IonCol>
+              </IonRow>
+              <div className='wrap-circle ion-padding'>
+                {
+                  pubgGroup.map((e, index) =>
+                    <span className="circle" key={`${index}`} />
+                  )
+                }
+              </div>
+              <IonButton shape='round' className='ion-margin-top' onClick={() => dismiss()} >
+                Random Buy
+              </IonButton>
+            </IonList>
+          </IonContent>
+        </IonModal>
+
+
+
       </IonContent>
     </IonPage >
   );
