@@ -9,26 +9,21 @@ import './Tab3.css';
 import { useEffect, useRef, useState } from 'react';
 import TableData from '../components/DataTable';
 import { addOutline, removeOutline, star } from 'ionicons/icons';
+import { depositMoney, withdrawMoney } from '../ReduxUtil/action-creators';
+import { useDispatch } from 'react-redux';
 
 
 
 const Tab3: React.FC = () => {
 
-  const [value, setValue] = useState<string>("0");
-  const [date, setDate] = useState<string>();
-  const [count, setCount] = useState<number>(1);
   const modal = useRef<HTMLIonModalElement>(null);
+  const [date, setDate] = useState<string>();
+  const [value, setValue] = useState<string>("0");
+  const [count, setCount] = useState<number>(1);
   const [swiper, setSwiper] = useState<Swiper>();
+
   const slideToc = (index: any) => swiper?.slideTo(index);
 
-
-
-
-  const pubgGroup = Array.from({ length: 20 });
-
-  const onchagenSwiper = (val: any) => {
-    setValue('' + val.activeIndex);
-  }
 
   const handleSegmentChange = (val: any) => {
     slideToc(parseInt(val.detail.value));
@@ -42,6 +37,10 @@ const Tab3: React.FC = () => {
     setDate(Date().toLocaleString());
   }
 
+  const pubgGroup = Array.from({ length: 20 });
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setInterval(getDate, 1000);
   },);
@@ -54,7 +53,6 @@ const Tab3: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-
         <h3 className='ion-text-center'>
           <b>Pubg mobile</b>   Ending in 00:00:01 {date}
         </h3>
@@ -70,18 +68,13 @@ const Tab3: React.FC = () => {
             <IonLabel>League</IonLabel>
           </IonSegmentButton>
         </IonSegment>
-        {/* <SegmentScrollerData /> */}
         <Swr
-
           onSlideChange={(val) => {
             setValue(val.activeIndex + '');
           }}
           modules={[Pagination]}
           onSwiper={(e) => setSwiper(e)}
-
-
         >
-
           <SwiperSlide><TableData /></SwiperSlide>
           <SwiperSlide><TableData /></SwiperSlide>
           <SwiperSlide><TableData /></SwiperSlide>
@@ -94,7 +87,9 @@ const Tab3: React.FC = () => {
             justifyContent: 'space-around',
           }}
         >
-          <IonButton>Teams</IonButton>
+          <IonButton onClick={() =>
+            depositMoney(2000)
+          }>Teams</IonButton>
           <div
             style={{
               display: 'flex',
@@ -107,7 +102,6 @@ const Tab3: React.FC = () => {
             <IonButton
               fill='clear'
               onClick={() => count > 1 && setCount(count - 1)}>
-
               <IonIcon icon={removeOutline}> </IonIcon>
 
             </IonButton>
@@ -122,6 +116,7 @@ const Tab3: React.FC = () => {
         </div>
 
         <IonModal id="example-modal" ref={modal} trigger="open-modal-buy">
+
           <IonContent>
             <IonToolbar>
               <IonTitle>Buy ticket</IonTitle>
@@ -149,9 +144,6 @@ const Tab3: React.FC = () => {
             </IonList>
           </IonContent>
         </IonModal>
-
-
-
       </IonContent>
     </IonPage >
   );

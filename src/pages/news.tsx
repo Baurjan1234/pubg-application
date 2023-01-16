@@ -10,10 +10,7 @@ import NewsCard from '../components/NewsCard';
 
 
 function PageNews() {
-
-
   const [segmentValue, setSegmentValue] = useState<string>('0');
-
   const [swiper, setSwiper] = useState<Swiper>();
   const slideTo = (index: any) => swiper?.slideTo(index);
 

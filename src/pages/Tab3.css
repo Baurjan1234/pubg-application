@@ -33,3 +33,26 @@ ion-modal#example-modal ion-toolbar {
     --background: rgb(14 116 144);
     --color: white;
 }
+
+ion-toolbar {
+    /* --background: url(https://wallpaperaccess.com/full/825334.jpg); */
+    --background: url(../images/pubgAppbar.png) center;
+    --object-fit: cover;
+}
+
+.containerR {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    text-align: center;
+    height: 50px;
+    object-fit: cover;
+}
+
+.center {
+    position: absolute;
+    top: 25%;
+    color: white;
+    left: 10px;
+
+}

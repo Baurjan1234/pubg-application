@@ -4,22 +4,15 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonList,
-  IonItem,
-  IonAvatar,
-  IonLabel,
   IonCol,
-  IonButton,
   IonIcon,
   IonCardContent,
-  IonCardTitle,
   IonCardSubtitle,
   IonCardHeader,
   IonCard,
-  IonThumbnail,
   IonRow,
 } from "@ionic/react";
 import { chevronForwardOutline } from "ionicons/icons";
-import "./infinity.css";
 
 function InfinityScrollerCom() {
   const [items, setItems] = useState<string[]>([]);
@@ -40,8 +33,8 @@ function InfinityScrollerCom() {
   }, []);
 
   return (
-    <IonContent>
-      <IonList>
+    <>
+      <IonList lines="none">
         {items.map((item, index) => (
           <IonCard className="ion-padding" key={`slide ${item}`}>
             <IonRow>
@@ -89,7 +82,7 @@ function InfinityScrollerCom() {
       >
         <IonInfiniteScrollContent></IonInfiniteScrollContent>
       </IonInfiniteScroll>
-    </IonContent>
+    </>
   );
 }
 export default InfinityScrollerCom;

@@ -1,6 +1,4 @@
 import { IonCol, IonGrid, IonRow } from '@ionic/react';
-
-
 function TableData() {
     return (
         <>

@@ -3,7 +3,6 @@ import {
   IonApp,
   IonIcon,
   IonLabel,
-  IonNav,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -17,23 +16,20 @@ import {
   cubeOutline,
   menuOutline,
 } from "ionicons/icons";
-import Tab1 from "./pages/Tab1";
-import Tab2 from "./pages/Tab2";
+import Home from "./pages/Home";
+import Wallet from "./pages/Wallet";
 import Tab3 from "./pages/Tab3";
-import Tab4 from "./pages/Tab4";
+import Profile from "./pages/Profile";
 
-/* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
 // theme
 import "./theme/variables.css";
 
-/* Basic CSS for apps built with Ionic */
 import "@ionic/react/css/normalize.css";
 import "@ionic/react/css/structure.css";
 import "@ionic/react/css/typography.css";
 
-/* Optional CSS utils that can be commented out */
 import "@ionic/react/css/padding.css";
 import "@ionic/react/css/float-elements.css";
 import "@ionic/react/css/text-alignment.css";
@@ -42,6 +38,8 @@ import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 setupIonicReact();
@@ -49,34 +47,37 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
+          <Route exact path="/home">
+            <Home />
           </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
+          <Route exact path="/wallet">
+            <Wallet />
           </Route>
           <Route exact path="/tab3">
             <Tab3 />
           </Route>
-          <Route path="/tab4">
-            <Tab4 />
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+          <Route path="/signup">
+            <SignUpPage />
           </Route>
           <Route exact path="/">
-            <Redirect to="/tab4" />
+            <Redirect to="/home" />
           </Route>
         </IonRouterOutlet>
 
-
-
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
+          <IonTabButton tab="home" href="/home">
             <IonIcon icon={trophy} />
             <IonLabel>Home</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
+          <IonTabButton tab="wallet" href="/wallet">
             <IonIcon icon={walletOutline} />
             <IonLabel>Wallet</IonLabel>
           </IonTabButton>
@@ -84,9 +85,9 @@ const App: React.FC = () => (
             <IonIcon icon={cubeOutline} />
             <IonLabel>Tab 3</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab4" href="/tab4">
+          <IonTabButton tab="profile" href="/profile">
             <IonIcon icon={menuOutline} />
-            <IonLabel>Tab 4</IonLabel>
+            <IonLabel>Profile</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

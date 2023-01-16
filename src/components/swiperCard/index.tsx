@@ -12,7 +12,7 @@ export default function SwiperCard() {
                 {[1, 2, 3, 4, 5, 6].map((card, index) => {
                     return (
                         <SwiperSlide key={`slide ${index}`} >
-                            <IonCard routerLink="/tab2" className='ion-padding'>
+                            <IonCard routerLink="/wallet" className='ion-padding'>
                                 <img
                                     src="https://ionicframework.com/docs/img/demos/card-media.png"
                                     alt="card"

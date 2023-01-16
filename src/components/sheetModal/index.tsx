@@ -1,5 +1,4 @@
-import React from 'react';
-import { IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonPage, IonLabel } from '@ionic/react';
+import { IonModal, IonContent, IonLabel } from '@ionic/react';
 
 function SheetModel() {
     return (
